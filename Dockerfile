@@ -20,6 +20,6 @@ COPY --chown=cdk:cdk entrypoint.sh /home/cdk/entrypoint.sh
 
 RUN chmod 744 /home/cdk/entrypoint.sh
 
-USER ${USER_NAME}
+# USER ${USER_NAME}
 
 ENTRYPOINT [ "/home/cdk/entrypoint.sh" ]
