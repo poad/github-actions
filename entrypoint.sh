@@ -42,7 +42,8 @@ ${output}
 }
 
 function main(){
-	cd ${GITHUB_WORKSPACE}/${INPUT_WORKING_DIR} && \
+	cd ${INPUT_WORKING_DIR} && \
+	pip install -r requirements.txt && \
 	runCdk
 }
 
