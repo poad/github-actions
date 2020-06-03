@@ -1,13 +1,26 @@
+FROM alpine:3 as Downloader
+
+WORKDIR /tmp
+
+RUN apk --update add --no-cache --virtual .build-deps \
+    curl \
+ && rm -rf /var/cache/apk/* \
+ && curl -sSLo /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+
 FROM alpine:3
 
 LABEL maintainer="Kenji Saito<ken-yo@mbr.nifty.com>"
 
+COPY --from=Downloader /tmp/get-pip.py /tmp/get-pip.py
+
 RUN apk --update add --no-cache --virtual .build-deps \
         python3 \
-        py3-setuptools \
         nodejs-current \
         npm \
- && pip3 install -U pip \
+ && rm -rf /var/cache/apk/* \
+ && python3 /tmp/get-pip.py \
+ && rm -rf /tmp/get-pip.py \
+ && pip install -U setuptools \
  && pip install -U awscli \
  && npm i -g aws-cdk
 
